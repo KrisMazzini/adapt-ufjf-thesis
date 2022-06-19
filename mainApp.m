@@ -1,5 +1,7 @@
 function mainApp(sim, clientID)
 
-    sim.simxAddStatusbarMessage(clientID, 'Session started!', sim.simx_opmode_oneshot);
+    scene = Scene(sim, clientID);
+    scene.addStatusBarMessage('Session started!');
+    scene.addStatusBarMessage('Session closed!');
 
 end
