@@ -1,8 +1,8 @@
 function [goal, maxSimTime, maxDistanceErr, maxAngleErr] = parameters()
 
-    goal = [-1.3; 0; adjustAngle(deg2rad(0))];
+    goal = [-1.3; -1.6; adjustAngle(deg2rad(90))];
     maxSimTime = 60; % s
-    maxDistanceErr = 0.01;
-    maxAngleErr = deg2rad(0.1);
+    maxDistanceErr = 0.1;
+    maxAngleErr = deg2rad(5);
 
 end
