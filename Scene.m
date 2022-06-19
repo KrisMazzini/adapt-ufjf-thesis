@@ -5,7 +5,7 @@ classdef Scene
         rightMotor
         leftMotor
         pioneerP3DX
-        floor
+        inertialFrame
     end
     methods
 
@@ -15,7 +15,7 @@ classdef Scene
             obj.rightMotor = obj.getElement('Pioneer_p3dx_rightMotor');
             obj.leftMotor = obj.getElement('Pioneer_p3dx_leftMotor');
             obj.pioneerP3DX = obj.getElement('Pioneer_p3dx');
-            obj.floor = obj.getElement('Floor');
+            obj.inertialFrame = obj.getElement('Floor');
         end
 
         function element = getElement(obj, elementString)
