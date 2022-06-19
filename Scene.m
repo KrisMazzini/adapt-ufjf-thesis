@@ -68,5 +68,18 @@ classdef Scene
             );
         end
 
+        function disconnect(obj)
+            obj.sim.simxGetPingTime(obj.clientID);
+
+            obj.sim.simxStopSimulation( ...
+                obj.clientID, ...
+                obj.sim.simx_opmode_oneshot_wait ...
+            );
+
+            obj.sim.simxFinish(obj.clientID);
+
+            disp('Disconnected!');
+        end
+
     end
 end

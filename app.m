@@ -1,69 +1,75 @@
-function [scene, timeStampedRobot, goal] = mainApp(sim, clientID)
+clear; close all; clc;
 
-    simTime = 0;
-
-    [
-        goalPosition, ...
-        maxSimTime, ...
-        maxDistanceError, ...
-        maxAngleError, ...
-    ] = parameters();
-
-    scene = Scene(sim, clientID);
-    scene.addStatusBarMessage('Session started!');
+[sim, clientID] = server();
+successfulConnection = (clientID == 0);
     
-    goal = Robot(goalPosition);
-    robot = Robot(scene.robotPosition);
-    timeStampedRobot = robot;
-    controller = CloseLoopControl(robot, goal);
+if ~successfulConnection
+    disp('Failed connection between Matlab and CoppeliaSim.');
+    return
+end
 
-    while ( ...
-            (controller.rho > maxDistanceError) || ...
-            (abs(controller.err(3)) > maxAngleError) ...
-    ) && simTime < maxSimTime
+disp('Successful Connection between Matlab and CoppeliaSim.');
 
-        tic
-        
-        controller = controller.shouldDriveBackwards(controller.alpha);
+simTime = 0;
 
-        velocity = controller.kRho * controller.rho;
-        velocity = min(velocity, robot.maxVelocity);
+[goalPosition, maxSimTime, maxDistanceError, maxAngleError] = parameters();
 
-        if (controller.driveBackwards)
-            velocity = -velocity;
-        end
+scene = Scene(sim, clientID);
+scene.addStatusBarMessage('Session started!');
 
-        angularVelocity = ( ...
-            controller.kAlpha * controller.alpha + ...
-            controller.kBeta * controller.beta ...
-        );
+goal = Robot(goalPosition);
+robot = Robot(scene.robotPosition);
+timeStampedRobot = robot;
+controller = CloseLoopControl(robot, goal);
+
+while ( ...
+        (controller.rho > maxDistanceError) || ...
+        (abs(controller.err(3)) > maxAngleError) ...
+) && simTime < maxSimTime
+
+    tic
     
-        robot = robot.adjustWheels(velocity, angularVelocity);
+    controller = controller.shouldDriveBackwards(controller.alpha);
 
-        scene.setRobotVelocity( ...
-            scene.rightMotor, ...
-            robot.rightWheelAngularVelocity ...
-        );
+    velocity = controller.kRho * controller.rho;
+    velocity = min(velocity, robot.maxVelocity);
 
-        scene.setRobotVelocity( ...
-            scene.leftMotor, ...
-            robot.leftWheelAngularVelocity ...
-        );
-
-        robot = Robot(scene.robotPosition);
-        controller = CloseLoopControl(robot, goal);
-
-        timeStampedRobot.position = robot.position;
-        timeStampedRobot = timeStampedRobot.addPositionHistory;
-
-        simTime = simTime + toc;
-        disp(['Simulation Time: ', num2str(simTime), ' s']);
-
+    if (controller.driveBackwards)
+        velocity = -velocity;
     end
 
-    scene.setRobotVelocity(scene.rightMotor, 0);
-    scene.setRobotVelocity(scene.leftMotor, 0);
+    angularVelocity = ( ...
+        controller.kAlpha * controller.alpha + ...
+        controller.kBeta * controller.beta ...
+    );
 
-    scene.addStatusBarMessage('Session closed!');
+    robot = robot.adjustWheels(velocity, angularVelocity);
+
+    scene.setRobotVelocity( ...
+        scene.rightMotor, ...
+        robot.rightWheelAngularVelocity ...
+    );
+
+    scene.setRobotVelocity( ...
+        scene.leftMotor, ...
+        robot.leftWheelAngularVelocity ...
+    );
+
+    robot = Robot(scene.robotPosition);
+    controller = CloseLoopControl(robot, goal);
+
+    timeStampedRobot.position = robot.position;
+    timeStampedRobot = timeStampedRobot.addPositionHistory;
+
+    simTime = simTime + toc;
+    disp(['Simulation Time: ', num2str(simTime), ' s']);
 
 end
+
+scene.setRobotVelocity(scene.rightMotor, 0);
+scene.setRobotVelocity(scene.leftMotor, 0);
+
+scene.addStatusBarMessage('Session closed!');
+scene.disconnect;
+
+plotTimeStamp(timeStampedRobot, goal);
