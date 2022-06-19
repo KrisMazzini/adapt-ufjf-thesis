@@ -9,6 +9,7 @@ function plotTimeStamp(robot, goal)
     initialRobot.position = robot.positionHistory(:,1);
 
     plotRobot(initialRobot, goal, 1);
+    title('Press "space" to begin.');
     pause;
 
     for t = 1:time

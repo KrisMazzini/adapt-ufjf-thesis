@@ -2,9 +2,12 @@ function [scene, timeStampedRobot, goal] = mainApp(sim, clientID)
 
     simTime = 0;
 
-    [goalPosition, maxSimTime] = parameters();
-    maxDistanceError = 0.1;
-    maxAngleError = deg2rad(1);
+    [
+        goalPosition, ...
+        maxSimTime, ...
+        maxDistanceError, ...
+        maxAngleError, ...
+    ] = parameters();
 
     scene = Scene(sim, clientID);
     scene.addStatusBarMessage('Session started!');

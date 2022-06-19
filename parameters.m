@@ -1,7 +1,8 @@
-function [goalPosition, maxSimTime] = parameters()
+function [goal, maxSimTime, maxDistanceErr, maxAngleErr] = parameters()
 
-    goalPosition = [1.3; 1.4; adjustAngle(deg2rad(30))];
-
+    goal = [-1.3; 0; adjustAngle(deg2rad(0))];
     maxSimTime = 60; % s
+    maxDistanceErr = 0.01;
+    maxAngleErr = deg2rad(0.1);
 
 end
