@@ -4,7 +4,7 @@ function scene = mainApp(sim, clientID)
 
     [goalPosition, maxSimTime] = parameters();
     maxDistanceError = 0.1;
-    maxAngleError = deg2rad(0.1);
+    maxAngleError = deg2rad(1);
 
     scene = Scene(sim, clientID);
     scene.addStatusBarMessage('Session started!');
@@ -23,6 +23,7 @@ function scene = mainApp(sim, clientID)
         controller = controller.shouldDriveBackwards(controller.alpha);
 
         velocity = controller.kRho * controller.rho;
+        velocity = min(velocity, robot.maxVelocity);
 
         if (controller.driveBackwards)
             velocity = -velocity;
@@ -49,7 +50,7 @@ function scene = mainApp(sim, clientID)
         controller = CloseLoopControl(robot, goal);
 
         simTime = simTime + toc;
-        disp(['Simulation Time: ', num2str(simTime), ' s'])
+        disp(['Simulation Time: ', num2str(simTime), ' s']);
 
     end
 
