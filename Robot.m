@@ -74,6 +74,9 @@ classdef Robot
 
             obj.position(3) = adjustAngle(obj.position(3));
 
+        end
+
+        function obj = addPositionHistory(obj)
             obj.positionHistory = [obj.positionHistory, obj.position];
         end
 

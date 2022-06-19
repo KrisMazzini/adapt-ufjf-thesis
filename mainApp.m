@@ -1,4 +1,4 @@
-function [scene, robot, goal, controller] = mainApp(sim, clientID)
+function [scene, timeStampedRobot, goal] = mainApp(sim, clientID)
 
     simTime = 0;
 
@@ -11,6 +11,7 @@ function [scene, robot, goal, controller] = mainApp(sim, clientID)
     
     goal = Robot(goalPosition);
     robot = Robot(scene.robotPosition);
+    timeStampedRobot = robot;
     controller = CloseLoopControl(robot, goal);
 
     while ( ...
@@ -48,6 +49,9 @@ function [scene, robot, goal, controller] = mainApp(sim, clientID)
 
         robot = Robot(scene.robotPosition);
         controller = CloseLoopControl(robot, goal);
+
+        timeStampedRobot.position = robot.position;
+        timeStampedRobot = timeStampedRobot.addPositionHistory;
 
         simTime = simTime + toc;
         disp(['Simulation Time: ', num2str(simTime), ' s']);

@@ -28,10 +28,12 @@ end
 
 disp('Successful Connection between Matlab and CoppeliaSim.');
 
-[scene, robot, goal, controller] = mainApp(sim, clientID);
+[scene, robot, goal] = mainApp(sim, clientID);
 
 sim.simxGetPingTime(clientID);
 sim.simxStopSimulation(clientID, scene.sim.simx_opmode_oneshot_wait);
 sim.simxFinish(clientID);
 
-disp('Disconnected!')
+disp('Disconnected!');
+
+plotTimeStamp(robot, goal);
