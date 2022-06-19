@@ -20,7 +20,7 @@ classdef Scene
             obj.pioneerP3DX = obj.getElement('Pioneer_p3dx');
             obj.inertialFrame = obj.getElement('Floor');
 
-            obj.setRobotVelocity(obj.rightMotor, 3);
+            obj.setRobotVelocity(obj.rightMotor, 0);
             obj.setRobotVelocity(obj.leftMotor, 0);
         end
 

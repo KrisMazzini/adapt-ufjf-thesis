@@ -30,7 +30,7 @@ disp('Successful Connection between Matlab and CoppeliaSim.');
 
 scene = mainApp(sim, clientID);
 
-% sim.simxGetPingTime(clientID);
-% sim.simxFinish(clientID);
-% 
-% disp('Disconnected!')
+sim.simxGetPingTime(clientID);
+sim.simxFinish(clientID);
+
+disp('Disconnected!')
