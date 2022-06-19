@@ -1,6 +1,6 @@
 classdef Scene
     properties (Dependent)
-        position
+        robotPosition
     end
     properties
         sim
@@ -20,8 +20,8 @@ classdef Scene
             obj.pioneerP3DX = obj.getElement('Pioneer_p3dx');
             obj.inertialFrame = obj.getElement('Floor');
 
-            obj.setVelocity(obj.rightMotor, 3);
-            obj.setVelocity(obj.leftMotor, 0);
+            obj.setRobotVelocity(obj.rightMotor, 3);
+            obj.setRobotVelocity(obj.leftMotor, 0);
         end
 
         function element = getElement(obj, elementString)
@@ -32,7 +32,7 @@ classdef Scene
             );
         end
 
-        function position = get.position(obj)
+        function position = get.robotPosition(obj)
             for i = 1:5
                 [~, position] = obj.sim.simxGetObjectPosition( ...
                     obj.clientID, ...
@@ -50,19 +50,19 @@ classdef Scene
             position(3) = adjustAngle(orientation(3));
         end
 
-        function addStatusBarMessage(obj, message)
-            obj.sim.simxAddStatusbarMessage( ...
-                obj.clientID, ...
-                message, ...
-                obj.sim.simx_opmode_oneshot ...
-            );
-        end
-
-        function setVelocity(obj, element, velocity)
+        function setRobotVelocity(obj, element, velocity)
             obj.sim.simxSetJointTargetVelocity( ...
                 obj.clientID, ...
                 element, ...
                 velocity, ...
+                obj.sim.simx_opmode_oneshot ...
+            );
+        end
+
+        function addStatusBarMessage(obj, message)
+            obj.sim.simxAddStatusbarMessage( ...
+                obj.clientID, ...
+                message, ...
                 obj.sim.simx_opmode_oneshot ...
             );
         end
