@@ -48,6 +48,7 @@ classdef Scene
                 );
             end
             position(3) = adjustAngle(orientation(3));
+            position = position';
         end
 
         function setRobotVelocity(obj, element, velocity)

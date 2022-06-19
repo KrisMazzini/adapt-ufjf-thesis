@@ -1,7 +1,7 @@
 function [goalPosition, maxSimTime] = parameters()
 
-    goalPosition = [0.5; 0; adjustAngle(deg2rad(0))];
+    goalPosition = [-1; 0; adjustAngle(deg2rad(0))];
 
-    maxSimTime = 15; % s
+    maxSimTime = 60; % s
 
 end

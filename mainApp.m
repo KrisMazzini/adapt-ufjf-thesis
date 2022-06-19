@@ -1,4 +1,4 @@
-function scene = mainApp(sim, clientID)
+function [scene, robot, goal, controller] = mainApp(sim, clientID)
 
     simTime = 0;
 
