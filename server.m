@@ -28,7 +28,7 @@ end
 
 disp('Successful Connection between Matlab and CoppeliaSim.');
 
-mainApp(sim, clientID);
+scene = mainApp(sim, clientID);
 
 sim.simxGetPingTime(clientID);
 sim.simxFinish(clientID);
