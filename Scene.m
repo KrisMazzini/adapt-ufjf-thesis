@@ -1,4 +1,7 @@
 classdef Scene
+    properties (Dependent)
+        position
+    end
     properties
         sim
         clientID
@@ -17,7 +20,7 @@ classdef Scene
             obj.pioneerP3DX = obj.getElement('Pioneer_p3dx');
             obj.inertialFrame = obj.getElement('Floor');
 
-            obj.setVelocity(obj.rightMotor, 0);
+            obj.setVelocity(obj.rightMotor, 3);
             obj.setVelocity(obj.leftMotor, 0);
         end
 
@@ -27,6 +30,24 @@ classdef Scene
                 elementString, ...
                 obj.sim.simx_opmode_oneshot_wait ...
             );
+        end
+
+        function position = get.position(obj)
+            for i = 1:5
+                [~, position] = obj.sim.simxGetObjectPosition( ...
+                    obj.clientID, ...
+                    obj.pioneerP3DX, ...
+                    obj.inertialFrame, ...
+                    obj.sim.simx_opmode_oneshot_wait ...
+                );
+                [~, orientation] = obj.sim.simxGetObjectOrientation( ...
+                    obj.clientID, ...
+                    obj.pioneerP3DX, ...
+                    obj.inertialFrame, ...
+                    obj.sim.simx_opmode_oneshot_wait ...
+                );
+            end
+            position(3) = adjustAngle(orientation(3));
         end
 
         function addStatusBarMessage(obj, message)
