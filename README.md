@@ -21,5 +21,5 @@ information:
 
 # Contact Me
 
-Linkedin: https://www.linkedin.com/in/kristopher-mazzini/
-Email: kristophermazzini.sc@gmail.com
+- Linkedin: https://www.linkedin.com/in/kristopher-mazzini/
+- Email: kristophermazzini.sc@gmail.com
