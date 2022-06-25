@@ -3,6 +3,7 @@ classdef RobotBody
         center
         leftWheel
         rightWheel
+        fullBody
     end
     properties
         position
@@ -43,6 +44,10 @@ classdef RobotBody
 
             robotRightWheel = obj.rotateZ(robotRightWheel);
             robotRightWheel = obj.translate(robotRightWheel);
+        end
+
+        function robotFullBody = get.fullBody(obj)
+            robotFullBody = [obj.center obj.leftWheel obj.rightWheel];
         end
 
         function outputMatrix = translate(obj, inputMatrix)
