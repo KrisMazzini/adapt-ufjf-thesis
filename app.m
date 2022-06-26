@@ -82,3 +82,5 @@ scene.setRobotVelocity(scene.leftMotor, 0);
 
 scene.addStatusBarMessage('Session closed!');
 scene.disconnect;
+
+plotTimeStamp(timeStampedRobot, goal, obstacles);
