@@ -4,6 +4,7 @@ classdef RobotBody
         leftWheel
         rightWheel
         collisionZone
+        influenceZone
     end
     properties
         position
@@ -52,6 +53,10 @@ classdef RobotBody
                  (fullBody(1,:) - obj.position(1)).^2 + ...
                  (fullBody(2,:) - obj.position(2)).^2 ...
              ));
+        end
+
+        function influenceZone = get.influenceZone(obj)
+            influenceZone = max(1, 3 * obj.collisionZone);
         end
 
         function outputMatrix = translate(obj, inputMatrix)
