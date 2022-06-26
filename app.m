@@ -38,7 +38,9 @@ while controller.rho > maxDistanceError && simTime < maxSimTime
     tic
 
     if (controller.fTot(1) == Inf || controller.fTot(2) == Inf)
-        disp('A collision occured')
+        collisionWarning = 'A collision occured';
+        disp(collisionWarning)
+        scene.addStatusBarMessage(collisionWarning)
         break
     end
 
@@ -86,3 +88,11 @@ scene.addStatusBarMessage('Session closed!');
 scene.disconnect;
 
 plotTimeStamp(timeStampedRobot, goal, obstacles);
+
+if controller.rho <= maxDistanceError
+    title('Goal completed :)')
+end
+
+if simTime >= maxSimTime
+   title('Max simulation time reached. Goal not completed!')
+end
