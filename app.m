@@ -69,6 +69,8 @@ end
 scene.setRobotVelocity(scene.rightMotor, 0);
 scene.setRobotVelocity(scene.leftMotor, 0);
 
+scene.detectedPoints
+
 scene.addStatusBarMessage('Session closed!');
 scene.disconnect;
 
