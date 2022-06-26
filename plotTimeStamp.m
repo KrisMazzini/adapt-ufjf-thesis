@@ -1,4 +1,4 @@
-function plotTimeStamp(robot, goal)
+function plotTimeStamp(robot, goal, obstacles)
 
     time = length(robot.positionHistory);
 
@@ -8,7 +8,7 @@ function plotTimeStamp(robot, goal)
     initialRobot = robot;
     initialRobot.position = robot.positionHistory(:,1);
 
-    plotRobot(initialRobot, goal, 1);
+    plotRobot(initialRobot, goal, obstacles, 1);
     title('Press "space" to begin.');
     pause;
 
@@ -16,7 +16,7 @@ function plotTimeStamp(robot, goal)
         currentRobot = robot;
         currentRobot.position = robot.positionHistory(:,t);
 
-        plotRobot(currentRobot, goal, t);
+        plotRobot(currentRobot, goal, obstacles, t);
         drawnow
     end
 

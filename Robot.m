@@ -2,7 +2,7 @@ classdef Robot
     properties (Constant)
         wheelRadius = (1/2) * (195/1000)
         wheelAxis = (1/2) * (381/1000)
-        maxVelocity = 1.2;
+        maxVelocity = 0.2;
     end
     properties (Dependent)
         velocity

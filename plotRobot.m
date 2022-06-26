@@ -1,7 +1,8 @@
-function plotRobot(robot, goal, time)
+function plotRobot(robot, goal, obstacles, time)
 
     plotBody(goal, 'y');
     plotBody(robot, 'r');
+    plotObstacles(obstacles, time)
 
     hold on;
 

@@ -10,7 +10,6 @@ classdef Scene
     properties (Dependent)
         robotPosition
         sonarsInstallPosition
-        detectedPoints
     end
     properties
         sim
@@ -97,7 +96,10 @@ classdef Scene
             sonarsInstallPosition = sonarsInstallPosition(: , index);
         end
 
-        function detectedPoints = get.detectedPoints(obj)
+        function detectedPoints = getDetectedPoints(obj, robotPosition)
+
+            sonarsInstallPos = obj.sonarsInstallPosition;
+            sonarsInstallOrient = obj.sonarsInstallOrientation;
 
             distances = zeros(1,16);
             detectedPoints = zeros(3, 16);
@@ -112,18 +114,18 @@ classdef Scene
                 end
 
                 xPosition = ( ...
-                    obj.sonarsInstallPosition(1,i) + distances(i) * cos( ...
-                        obj.robotPosition(3) + obj.sonarsInstallOrientation(i) ...
+                    sonarsInstallPos(1,i) + distances(i) * cos( ...
+                        robotPosition(3) + sonarsInstallOrient(i) ...
                     ) ...
                 );
                 
                 yPosition = ( ...
-                    obj.sonarsInstallPosition(2,i) + distances(i) * sin( ...
-                        obj.robotPosition(3) + obj.sonarsInstallOrientation(i) ...
+                    sonarsInstallPos(2,i) + distances(i) * sin( ...
+                        robotPosition(3) + sonarsInstallOrient(i) ...
                     ) ...
                 );
 
-                zPosition = obj.sonarsInstallPosition(3,i);
+                zPosition = sonarsInstallPos(3,i);
                 
                 detectedPoints(:,i) = [xPosition; yPosition; zPosition];
             end

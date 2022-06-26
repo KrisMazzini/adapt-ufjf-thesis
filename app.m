@@ -19,7 +19,12 @@ scene.addStatusBarMessage('Session started!');
 
 goal = Robot(goalPosition);
 robot = Robot(scene.robotPosition);
+for i = 1:16
+    obstacles(i) = Obstacle;
+end
+
 timeStampedRobot = robot;
+
 controller = CloseLoopControl(robot, goal);
 
 while ( ...
@@ -58,6 +63,12 @@ while ( ...
     robot = Robot(scene.robotPosition);
     controller = CloseLoopControl(robot, goal);
 
+    detectedPoints = scene.getDetectedPoints(robot.position);
+
+    for i = 1:16
+        obstacles(i) = obstacles(i).updatePosition(detectedPoints(:,i));
+    end
+
     timeStampedRobot.position = robot.position;
     timeStampedRobot = timeStampedRobot.addPositionHistory;
 
@@ -69,9 +80,5 @@ end
 scene.setRobotVelocity(scene.rightMotor, 0);
 scene.setRobotVelocity(scene.leftMotor, 0);
 
-scene.detectedPoints
-
 scene.addStatusBarMessage('Session closed!');
 scene.disconnect;
-
-plotTimeStamp(timeStampedRobot, goal);
