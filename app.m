@@ -12,7 +12,7 @@ disp('Successful Connection between Matlab and CoppeliaSim.');
 
 simTime = 0;
 
-[goalPosition, maxSimTime, maxDistanceError, maxAngleError] = parameters();
+[goalPosition, maxSimTime, maxDistanceError, ~] = parameters();
 
 scene = Scene(sim, clientID);
 scene.addStatusBarMessage('Session started!');
@@ -23,29 +23,31 @@ for i = 1:16
     obstacles(i) = Obstacle;
 end
 
+detectedPoints = scene.getDetectedPoints(robot.position);
+
+for i = 1:16
+    obstacles(i) = obstacles(i).updatePosition(detectedPoints(:,i));
+end
+
 timeStampedRobot = robot;
 
-controller = CloseLoopControl(robot, goal);
+controller = PotentialField(robot, goal, obstacles);
 
-while ( ...
-        (controller.rho > maxDistanceError) || ...
-        (abs(controller.err(3)) > maxAngleError) ...
-) && simTime < maxSimTime
+while controller.rho > maxDistanceError && simTime < maxSimTime
 
     tic
-    
-    controller = controller.shouldDriveBackwards(controller.alpha);
 
-    velocity = controller.kRho * controller.rho;
-    velocity = min(velocity, robot.maxVelocity);
-
-    if (controller.driveBackwards)
-        velocity = -velocity;
+    if (controller.fTot(1) == Inf || controller.fTot(2) == Inf)
+        disp('A collision occured')
+        break
     end
 
-    angularVelocity = ( ...
-        controller.kAlpha * controller.alpha + ...
-        controller.kBeta * controller.beta ...
+    velocity = norm(controller.fTot, 2);
+    velocity = min(velocity, robot.maxVelocity);
+
+    angularVelocity = adjustAngle( ...
+        atan2(controller.fTot(2), controller.fTot(1)) - ...
+        robot.position(3) ...
     );
 
     robot = robot.adjustWheels(velocity, angularVelocity);
@@ -61,7 +63,7 @@ while ( ...
     );
 
     robot = Robot(scene.robotPosition);
-    controller = CloseLoopControl(robot, goal);
+    controller = PotentialField(robot, goal, obstacles);
 
     detectedPoints = scene.getDetectedPoints(robot.position);
 
