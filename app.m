@@ -29,8 +29,6 @@ for i = 1:16
     obstacles(i) = obstacles(i).updatePosition(detectedPoints(:,i));
 end
 
-timeStampedRobot = robot;
-
 controller = PotentialField(robot, goal, obstacles);
 
 while controller.rho > maxDistanceError && simTime < maxSimTime
@@ -66,7 +64,7 @@ while controller.rho > maxDistanceError && simTime < maxSimTime
         robot.leftWheelAngularVelocity ...
     );
 
-    robot = Robot(scene.robotPosition);
+    robot = robot.move(scene.robotPosition);
     controller = PotentialField(robot, goal, obstacles);
 
     detectedPoints = scene.getDetectedPoints(robot.position);
@@ -74,9 +72,6 @@ while controller.rho > maxDistanceError && simTime < maxSimTime
     for i = 1:16
         obstacles(i) = obstacles(i).updatePosition(detectedPoints(:,i));
     end
-
-    timeStampedRobot.position = robot.position;
-    timeStampedRobot = timeStampedRobot.addPositionHistory;
 
     simTime = simTime + toc;
     disp(['Simulation Time: ', num2str(simTime), ' s']);
@@ -89,7 +84,7 @@ scene.setRobotVelocity(scene.leftMotor, 0);
 scene.addStatusBarMessage('Session closed!');
 scene.disconnect;
 
-plotTimeStamp(timeStampedRobot, goal, obstacles);
+plotTimeStamp(robot, goal, obstacles);
 
 if controller.rho <= maxDistanceError
     title('Goal completed :)')

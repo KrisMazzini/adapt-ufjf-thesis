@@ -1,20 +1,23 @@
 classdef RobotBody
-    properties (Dependent)
+    properties
+        position
         center
         leftWheel
         rightWheel
         collisionZone
         influenceZone
     end
-    properties
-        position
-    end
     methods
         function obj = RobotBody(robot)
             obj.position = robot.position;
+            obj.center = obj.getCenter();
+            obj.leftWheel = obj.getLeftWheel();
+            obj.rightWheel = obj.getRightWheel();
+            obj.collisionZone = obj.getCollisionZone();
+            obj.influenceZone = obj.getInfluenceZone();
         end
 
-        function robotCenter = get.center(obj)
+        function robotCenter = getCenter(obj)
             robotCenter = [
                 100 , 227.5 , 227.5 , 100 , -200 , -227.5 , -227.5 , -200
                 -190.5 , -50 , 50 , 190.5 , 190.5 , 163 , -163 , -190.5
@@ -25,7 +28,7 @@ classdef RobotBody
             robotCenter = obj.translate(robotCenter);
         end
 
-        function robotLeftWheel = get.leftWheel(obj)
+        function robotLeftWheel = getLeftWheel(obj)
             robotLeftWheel = [
                 97.5 97.5 -97.5 -97.5
                 170.5 210.5 210.5 170.5
@@ -36,7 +39,7 @@ classdef RobotBody
             robotLeftWheel = obj.translate(robotLeftWheel);
         end
 
-        function robotRightWheel = get.rightWheel(obj)
+        function robotRightWheel = getRightWheel(obj)
             robotRightWheel = [
                 97.5 97.5 -97.5 -97.5
                 -170.5 -210.5 -210.5 -170.5
@@ -47,7 +50,7 @@ classdef RobotBody
             robotRightWheel = obj.translate(robotRightWheel);
         end
 
-        function robotCollisionZone = get.collisionZone(obj)
+        function robotCollisionZone = getCollisionZone(obj)
              fullBody = [obj.leftWheel obj.rightWheel obj.center];
              robotCollisionZone = max(sqrt( ...
                  (fullBody(1,:) - obj.position(1)).^2 + ...
@@ -55,7 +58,7 @@ classdef RobotBody
              ));
         end
 
-        function influenceZone = get.influenceZone(obj)
+        function influenceZone = getInfluenceZone(obj)
             influenceZone = max(1, 3 * obj.collisionZone);
         end
 

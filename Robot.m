@@ -8,11 +8,11 @@ classdef Robot
         velocity
         angularVelocity
         inertialFrameVelocity
-        body
     end
     properties
         position = [0; 0; 0]
         positionHistory = []
+        body
         leftWheelAngularVelocity = 0
         rightWheelAngularVelocity = 0
     end
@@ -20,7 +20,8 @@ classdef Robot
 
         function obj = Robot(position)
             obj.position = position;
-            obj.positionHistory = position;
+            obj.positionHistory = obj.position;
+            obj.body = obj.getBody();
         end
 
         function velocity = get.velocity(obj)
@@ -52,7 +53,7 @@ classdef Robot
             ] * [obj.velocity; obj.angularVelocity];
         end
 
-        function robotBody = get.body(obj)
+        function robotBody = getBody(obj)
             robotBody = RobotBody(obj);
         end
 
@@ -66,14 +67,11 @@ classdef Robot
             obj.leftWheelAngularVelocity = wheels(2);
         end
 
-        function obj = move(obj, timeSample)
-            obj.position = ( ...
-                obj.position + ...
-                obj.inertialFrameVelocity * timeSample ...
-            );
-
+        function obj = move(obj, newPosition)
+            obj.position = newPosition;
+            obj.body = obj.getBody();
             obj.position(3) = adjustAngle(obj.position(3));
-
+            obj = obj.addPositionHistory();
         end
 
         function obj = addPositionHistory(obj)

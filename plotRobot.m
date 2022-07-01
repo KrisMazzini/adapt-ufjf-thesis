@@ -1,5 +1,7 @@
 function plotRobot(robot, goal, obstacles, time)
 
+    robot.body = robot.getBody();
+
     plotBody(goal, 'y');
     plotBody(robot, 'r');
 %     plotObstacles(obstacles, time)
