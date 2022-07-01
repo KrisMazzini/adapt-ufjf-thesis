@@ -4,15 +4,14 @@ classdef PotentialField
         kRep = 1/40;
     end
     properties (Dependent)
-        err
         rho
         fAtt
         fRep
-        fTot
     end
     properties
         current
         goal
+        err
         obstacles
         collision = false
     end
@@ -22,9 +21,10 @@ classdef PotentialField
             obj.current = current;
             obj.goal = goal;
             obj.obstacles = obstacles;
+            obj.err = obj.getErr;
         end
 
-        function error = get.err(obj)
+        function error = getErr(obj)
             error = obj.goal.position - obj.current.position;
         end
 
@@ -47,7 +47,7 @@ classdef PotentialField
 
         end
 
-        function fTot = get.fTot(obj)
+        function fTot = getFTot(obj)
             fTot = obj.fAtt + obj.fRep;
         end
 

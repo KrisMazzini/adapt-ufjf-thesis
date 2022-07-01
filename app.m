@@ -37,18 +37,20 @@ while controller.rho > maxDistanceError && simTime < maxSimTime
 
     tic
 
-    if (controller.fTot(1) == Inf || controller.fTot(2) == Inf)
+    fTot = controller.getFTot();
+
+    if (fTot(1) == Inf || fTot(2) == Inf)
         collisionWarning = 'A collision occured';
         disp(collisionWarning)
         scene.addStatusBarMessage(collisionWarning)
         break
     end
 
-    velocity = norm(controller.fTot, 2);
+    velocity = norm(fTot, 2);
     velocity = min(velocity, robot.maxVelocity);
 
     angularVelocity = adjustAngle( ...
-        atan2(controller.fTot(2), controller.fTot(1)) - ...
+        atan2(fTot(2), fTot(1)) - ...
         robot.position(3) ...
     );
 

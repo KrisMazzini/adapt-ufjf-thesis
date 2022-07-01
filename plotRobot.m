@@ -2,7 +2,7 @@ function plotRobot(robot, goal, obstacles, time)
 
     plotBody(goal, 'y');
     plotBody(robot, 'r');
-    plotObstacles(obstacles, time)
+%     plotObstacles(obstacles, time)
 
     hold on;
 
