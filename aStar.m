@@ -11,8 +11,11 @@ hold on;
 plotOccupiedCells(map, mapObj.obstacleWeight, mapObj.cellSize, 'k');
 plotOccupiedCells(map, mapObj.virtualObstacleWeight, mapObj.cellSize, 'y');
 
-[xInit, yInit, map] = addInitialPosition(map);
-[xGoal, yGoal, map] = addFinalPosition(map);
+[xInit, yInit] = find(mapObj.matrix == mapObj.initPositionWeight, 1);
+plotPosition(xInit, yInit, 'b')
+
+[xGoal, yGoal] = find(mapObj.matrix == mapObj.goalPositionWeight, 1);
+plotPosition(xGoal, yGoal, 'r')
 
 xCurr = xInit;
 yCurr = yInit;

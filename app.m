@@ -32,6 +32,9 @@ end
 controller = PotentialField(robot, goal, obstacles);
 
 map = getSceneMap;
+map = map.setInit(map.coordinates2index(robot.position));
+map = map.setGoal(map.coordinates2index(goal.position));
+
 optimalPath = aStar(map);
 
 while controller.rho > maxDistanceError && simTime < maxSimTime

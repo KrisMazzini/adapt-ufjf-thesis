@@ -4,6 +4,8 @@ classdef Map
         cellSize = 0.2;
         obstacleWeight = -2;
         virtualObstacleWeight = -1;
+        initPositionWeight = 2;
+        goalPositionWeight = 0;
     end
     properties
         xIndex2coordinates
@@ -18,6 +20,7 @@ classdef Map
             obj.yIndex2coordinates = obj.frameSize/2 : -obj.cellSize : -obj.frameSize/2 + obj.cellSize;
             obj.matrix = ones(obj.matrixSize);
         end
+
         function obj = setObstacles(obj, indexes)
             for ind = 1:length(indexes)
                 x = indexes(ind,1);
@@ -25,6 +28,7 @@ classdef Map
                 obj.matrix(x, y) = obj.obstacleWeight;
             end
         end
+
         function obj = setVirtualObstacles(obj)
             virtualObstacles = [];
 
@@ -51,7 +55,26 @@ classdef Map
                     end
                 end
             end
+        end
 
+        function obj = setInit(obj, index)
+            obj.matrix(index(1), index(2)) = obj.initPositionWeight;
+        end
+
+        function obj = setGoal(obj, index)
+            obj.matrix(index(1), index(2)) = obj.goalPositionWeight;
+        end
+
+        function index = coordinates2index(obj, coordinates)
+            x = find(( ...
+                obj.xIndex2coordinates <= coordinates(1) & ...
+                obj.xIndex2coordinates >= (coordinates(1) - obj.cellSize) ...
+            ), 1);
+            y = find(( ...
+                obj.yIndex2coordinates >= coordinates(2) & ...
+                obj.yIndex2coordinates <= (coordinates(2) + obj.cellSize) ...
+            ), 1);
+            index = [x,y];
         end
     end
 end
