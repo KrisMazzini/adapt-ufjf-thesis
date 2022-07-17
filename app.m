@@ -31,6 +31,9 @@ end
 
 controller = PotentialField(robot, goal, obstacles);
 
+map = getSceneMap;
+optimalPath = aStar(map);
+
 while controller.rho > maxDistanceError && simTime < maxSimTime
 
     tic

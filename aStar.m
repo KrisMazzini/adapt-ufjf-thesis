@@ -1,12 +1,15 @@
-function aStar
+function optimalPath = aStar(mapObj)
 
-lines = 10;
-cols = 10;
+optimalPath = [];
 
-map = ones(lines, cols);
+lines = mapObj.matrixSize;
+cols = mapObj.matrixSize;
+
+map = mapObj.matrix;
 plotMap(lines, cols);
+hold on;
+plotOccupiedCells(map, mapObj.cellSize);
 
-map = addObstacles(map);
 [xInit, yInit, map] = addInitialPosition(map);
 [xGoal, yGoal, map] = addFinalPosition(map);
 
@@ -32,7 +35,7 @@ hold off;
 
 openCells = [0, xCurr, yCurr, xNeigh, yNeigh, init2currCost, minFunction];
 
-[yObstacles, xObstacles] = find(map == -1);
+[xObstacles, yObstacles] = find(map == -1);
 closedCells = [xObstacles, yObstacles];
 closedCells = [closedCells; [xCurr, yCurr]];
 
