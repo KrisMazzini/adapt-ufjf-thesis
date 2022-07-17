@@ -2,7 +2,8 @@ classdef Map
     properties (Constant)
         frameSize = 20;
         cellSize = 0.2;
-        obstacleWeight = -1;
+        obstacleWeight = -2;
+        virtualObstacleWeight = -1;
     end
     properties
         xIndex2coordinates
@@ -23,6 +24,34 @@ classdef Map
                 y = indexes(ind, 2);
                 obj.matrix(x, y) = obj.obstacleWeight;
             end
+        end
+        function obj = setVirtualObstacles(obj)
+            virtualObstacles = [];
+
+            [rows, cols] = find(obj.matrix == obj.obstacleWeight);
+            
+            for x = -3:3
+                for y = -3:3
+                    virtualObstacles = [virtualObstacles; [rows + x, cols + y]];
+                end
+            end
+
+            for ind = 1:length(virtualObstacles)
+                x = virtualObstacles(ind,1);
+                y = virtualObstacles(ind, 2);
+
+                validIndexes = ( ...
+                    x > 0 && y > 0 && ...
+                    x <= obj.matrixSize && y <= obj.matrixSize ...
+                );
+
+                if validIndexes
+                    if (obj.matrix(x, y) ~= obj.obstacleWeight)
+                        obj.matrix(x, y) = obj.virtualObstacleWeight;
+                    end
+                end
+            end
+
         end
     end
 end

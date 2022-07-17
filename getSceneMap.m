@@ -40,5 +40,5 @@ function map = getSceneMap
     end
 
     map = map.setObstacles(occupiedCells);
-
+    map = map.setVirtualObstacles;
 end

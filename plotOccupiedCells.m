@@ -1,6 +1,10 @@
-function plotOccupiedCells(map, cellSize)
-    [rows, cols] = find(map == -1);
+function plotOccupiedCells(map, weight, cellSize, color)
+    [rows, cols] = find(map == weight);
 
-    plot(rows, cols, 'sk', 'MarkerSize', cellSize*10, 'LineWidth', cellSize*10);
-    plot(rows, cols, '*k', 'MarkerSize', cellSize*10, 'LineWidth', cellSize*10);
+    style1 = strcat('s', color);
+    style2 = strcat('*', color);
+
+
+    plot(rows, cols, style1, 'MarkerSize', cellSize*10, 'LineWidth', cellSize*10);
+    plot(rows, cols, style2, 'MarkerSize', cellSize*10, 'LineWidth', cellSize*10);
 end

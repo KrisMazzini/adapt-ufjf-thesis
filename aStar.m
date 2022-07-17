@@ -8,7 +8,8 @@ cols = mapObj.matrixSize;
 map = mapObj.matrix;
 plotMap(lines, cols);
 hold on;
-plotOccupiedCells(map, mapObj.cellSize);
+plotOccupiedCells(map, mapObj.obstacleWeight, mapObj.cellSize, 'k');
+plotOccupiedCells(map, mapObj.virtualObstacleWeight, mapObj.cellSize, 'y');
 
 [xInit, yInit, map] = addInitialPosition(map);
 [xGoal, yGoal, map] = addFinalPosition(map);
@@ -35,8 +36,12 @@ hold off;
 
 openCells = [0, xCurr, yCurr, xNeigh, yNeigh, init2currCost, minFunction];
 
-[xObstacles, yObstacles] = find(map == -1);
+[xObstacles, yObstacles] = find(map == mapObj.obstacleWeight);
 closedCells = [xObstacles, yObstacles];
+
+[xVirtObst, yVirtObst] = find(map == mapObj.virtualObstacleWeight);
+closedCells = [closedCells; [xVirtObst, yVirtObst]];
+
 closedCells = [closedCells; [xCurr, yCurr]];
 
 while (xCurr ~= xGoal) || (yCurr ~= yGoal)
