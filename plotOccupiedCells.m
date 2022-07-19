@@ -1,5 +1,5 @@
 function plotOccupiedCells(map, weight, cellSize, color)
-    [cols, rows] = find(map == weight);
+    [rows, cols] = find(map == weight);
 
     style1 = strcat('s', color);
     style2 = strcat('*', color);

@@ -29,13 +29,19 @@ for i = 1:16
     obstacles(i) = obstacles(i).updatePosition(detectedPoints(:,i));
 end
 
-controller = PotentialField(robot, goal, obstacles);
-
 map = getSceneMap;
 map = map.setInit(map.coordinates2index(robot.position));
 map = map.setGoal(map.coordinates2index(goal.position));
 
 optimalPath = aStar(map);
+
+for ind = 1:length(optimalPath)
+
+nextPath = optimalPath(ind,:);
+nextGoalPosition = [map.index2coordinates(nextPath), 0];
+nextGoal = Robot(nextGoalPosition);
+
+controller = PotentialField(robot, nextGoal, obstacles);
 
 while controller.rho > maxDistanceError && simTime < maxSimTime
 
@@ -81,6 +87,11 @@ while controller.rho > maxDistanceError && simTime < maxSimTime
 
     simTime = simTime + toc;
     disp(['Simulation Time: ', num2str(simTime), ' s']);
+
+end
+
+scene.setRobotVelocity(scene.rightMotor, 0);
+scene.setRobotVelocity(scene.leftMotor, 0);
 
 end
 
