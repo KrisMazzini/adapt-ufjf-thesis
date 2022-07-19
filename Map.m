@@ -1,7 +1,7 @@
 classdef Map
     properties (Constant)
         frameSize = 20;
-        cellSize = 0.2;
+        cellSize = 0.5;
         obstacleWeight = -2;
         virtualObstacleWeight = -1;
         initPositionWeight = 2;
@@ -30,8 +30,8 @@ classdef Map
 
             [rows, cols] = find(obj.matrix == obj.obstacleWeight);
             
-            for x = -3:3
-                for y = -3:3
+            for x = -1:1
+                for y = -1:1
                     virtualObstacles = [virtualObstacles; [rows + x, cols + y]];
                 end
             end

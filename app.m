@@ -77,7 +77,7 @@ while controller.rho > maxDistanceError && simTime < maxSimTime
     );
 
     robot = robot.move(scene.robotPosition);
-    controller = PotentialField(robot, goal, obstacles);
+    controller = PotentialField(robot, nextGoal, obstacles);
 
     detectedPoints = scene.getDetectedPoints(robot.position);
 
