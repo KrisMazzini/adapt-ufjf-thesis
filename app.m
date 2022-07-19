@@ -35,11 +35,17 @@ map = map.setGoal(map.coordinates2index(goal.position));
 
 optimalPath = aStar(map);
 
-for ind = 1:length(optimalPath)
+nextGoalPosition = [];
+for ind = 2:length(optimalPath)
+    nextPath = optimalPath(ind, :);
+    nextGoalPosition = [nextGoalPosition; ( ...
+        [map.index2coordinates(nextPath), 0] ...
+    )];
+end
 
-nextPath = optimalPath(ind,:);
-nextGoalPosition = [map.index2coordinates(nextPath), 0];
-nextGoal = Robot(nextGoalPosition);
+for ind = 1:length(nextGoalPosition)
+
+nextGoal = Robot(nextGoalPosition(ind,:));
 
 controller = PotentialField(robot, nextGoal, obstacles);
 

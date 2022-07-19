@@ -59,7 +59,7 @@ classdef RobotBody
         end
 
         function influenceZone = getInfluenceZone(obj)
-            influenceZone = max(1, 3 * obj.collisionZone);
+            influenceZone = obj.collisionZone;
         end
 
         function outputMatrix = translate(obj, inputMatrix)
