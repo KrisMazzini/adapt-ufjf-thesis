@@ -11,10 +11,10 @@ hold on;
 plotOccupiedCells(map, mapObj.obstacleWeight, mapObj.cellSize, 'k');
 plotOccupiedCells(map, mapObj.virtualObstacleWeight, mapObj.cellSize, 'y');
 
-[xInit, yInit] = find(mapObj.matrix == mapObj.initPositionWeight, 1);
+[yInit, xInit] = find(mapObj.matrix == mapObj.initPositionWeight, 1);
 plotPosition(xInit, yInit, 'b')
 
-[xGoal, yGoal] = find(mapObj.matrix == mapObj.goalPositionWeight, 1);
+[yGoal, xGoal] = find(mapObj.matrix == mapObj.goalPositionWeight, 1);
 plotPosition(xGoal, yGoal, 'r')
 
 xCurr = xInit;
@@ -39,10 +39,10 @@ hold off;
 
 openCells = [0, xCurr, yCurr, xNeigh, yNeigh, init2currCost, minFunction];
 
-[xObstacles, yObstacles] = find(map == mapObj.obstacleWeight);
+[yObstacles, xObstacles] = find(map == mapObj.obstacleWeight);
 closedCells = [xObstacles, yObstacles];
 
-[xVirtObst, yVirtObst] = find(map == mapObj.virtualObstacleWeight);
+[yVirtObst, xVirtObst] = find(map == mapObj.virtualObstacleWeight);
 closedCells = [closedCells; [xVirtObst, yVirtObst]];
 
 closedCells = [closedCells; [xCurr, yCurr]];
