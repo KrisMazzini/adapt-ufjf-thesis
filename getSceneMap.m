@@ -23,17 +23,20 @@ function map = getSceneMap
 
     occupiedCells = [];
     for i = 1:length(walls)
-        firstXIndex = walls(i).findFirstCellX(map.xIndex2coordinates, map.cellSize);
-        firstYIndex = walls(i).findFirstCellY(map.yIndex2coordinates, map.cellSize);
-        lastXIndex = walls(i).findLastCellX(map.xIndex2coordinates, map.cellSize);
-        lastYIndex = walls(i).findLastCellY(map.yIndex2coordinates, map.cellSize);
+        firstIndex = map.coordinates2index(walls(i).trueCoordinates(1,:));
+        lastIndex = map.coordinates2index(walls(i).trueCoordinates(2,:));
 
-        xIndexes = firstXIndex:lastXIndex;
-        yIndexes = firstYIndex:lastYIndex;
+        firstLine = firstIndex(1);
+        firstCol = firstIndex(2);
+        lastLine = lastIndex(1);
+        lastCol = lastIndex(2);
 
-        for x = 1:length(xIndexes)
-            for y = 1:length(yIndexes)
-                occupiedCells = [occupiedCells; [xIndexes(x), yIndexes(y)]];
+        lines = firstLine:lastLine;
+        cols = firstCol:lastCol;
+
+        for lin = 1:length(lines)
+            for col = 1:length(cols)
+                occupiedCells = [occupiedCells; [lines(lin), cols(col)]];
             end
         end
 
